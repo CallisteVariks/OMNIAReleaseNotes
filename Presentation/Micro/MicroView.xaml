@@ -1,0 +1,110 @@
+﻿<UserControl x:Class="OMNIToolNetworkAnalyzer.Presentation.Main.About.OMNIAReleaseNotes.Presentation.Micro.MicroView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="1024" d:DesignHeight="768" >
+
+    <Grid Background="White" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+
+        <Button x:Name="AddEmptyRelease" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Content="Add release" Width="auto"/>
+        <Button x:Name="AddEmptyTool" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" Content="Add component" Width="auto"/>
+        <Button x:Name="ClearOutputField" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="Clear all" Width="auto"/>
+        <Button x:Name="SaveFile" Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Export" Width="Auto" Margin="0,10"/>
+        
+        <TextBox x:Name="InputString" Grid.Row="2" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" FontSize="15" Height ="Auto" AcceptsReturn="True" 
+                     VerticalScrollBarVisibility="Auto" />
+        <TextBox x:Name="OutputString" Grid.Row="2" Grid.Column="1" Grid.RowSpan="3" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" TextWrapping="Wrap" FontSize="15" Height="Auto" 
+                     AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Margin="5,0,0,0"/>
+
+        <TextBlock Text="Insert release notes: " FontSize="25" HorizontalAlignment="Center"/>
+        <TextBlock Text="Template example" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"/>
+        <TextBlock Text="List of valid component names" Grid.Column="2" Grid.Row="3" FontSize="20" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="ErrorSavingFile" Text=" " Grid.Column="1" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" FontWeight="Bold" Foreground="Red" Margin="5"/>
+
+        <GroupBox Grid.Column="2" Grid.Row="2" Margin="5,0" TextElement.FontSize="15" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Row="0">
+                    <Run Text="[Version] :"/>
+                    <Run Text="5.0 - Must be a double" FontStyle="Italic" />
+                </TextBlock>
+                <TextBlock Grid.Row="1" >
+                    <Run Text="[Patch] :"/>
+                    <Run Text="8 - Must be an integer" FontStyle="Italic"/>
+                </TextBlock>
+                <TextBlock Grid.Row="2" >
+                    <Run Text="[Release date] :" />
+                    <Run Text="yyyy-MM-dd" FontStyle="Italic"/>
+                </TextBlock>
+                <TextBlock Grid.Row="3" >
+                    <Run Text="[Restrictions] :"/>
+                    <Run Text="Restrictions for the release" FontStyle="Italic"/>
+                </TextBlock>
+                <TextBlock Grid.Row="4" >
+                    <Run Text="[Comments] :"/>
+                    <Run Text="Comments for the release" FontStyle="Italic"/>
+                </TextBlock>
+                <TextBlock Grid.Row="5">
+                    <Run Text="[Component]"/>
+                </TextBlock>
+                <TextBlock Grid.Row="6" >
+                    <Run Text="Name :"/>
+                    <Run Text="Must be a name from list below" FontStyle="Italic"/>
+                </TextBlock>
+                <TextBlock Grid.Row="7" >
+                    <Run Text="Version :"/>
+                    <Run Text="3.14.3.1352" FontStyle="Italic"/>
+                </TextBlock>
+                <TextBlock Grid.Row="8" >
+                    <Run Text="File name :"/>
+                    <Run Text="some_file.smth" FontStyle="Italic"/>
+                </TextBlock>
+                <TextBlock Grid.Row="9">
+                    <Run Text="Restriction :"/>
+                    <Run Text="restriction for the component" FontStyle="Italic"/>
+                </TextBlock>
+                <TextBlock Grid.Row="10">
+                    <Run Text="Comment :"/>
+                    <Run Text="comment for the component" FontStyle="Italic"/>
+                </TextBlock>
+            </Grid>
+        </GroupBox>
+
+        <ScrollViewer Grid.Column="2" Grid.Row="4" Margin="5,5,5,0" VerticalAlignment="Stretch" VerticalScrollBarVisibility="Auto">
+            <TextBox Text="{Binding EnumList, Mode=OneWay}" TextWrapping="Wrap" FontSize="13" Height="auto" VerticalAlignment="Stretch" IsReadOnly="True"/>
+        </ScrollViewer>
+
+    </Grid>
+</UserControl>

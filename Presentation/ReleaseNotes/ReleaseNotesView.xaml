@@ -1,0 +1,150 @@
+﻿<UserControl x:Name="RootWindow" 
+             x:Class="OMNIToolNetworkAnalyzer.Presentation.Main.About.OMNIAReleaseNotes.Presentation.ReleaseNotes.ReleaseNotesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignWidth="1024" d:DesignHeight="768" 
+             xmlns:cal="http://www.caliburnproject.org"
+             xmlns:converters="clr-namespace:OMNIToolNetworkAnalyzer.Presentation.Main.About.OMNIAReleaseNotes.Converter"
+             cal:Message.Attach="[Loaded]=[Loaded]">
+    
+    <UserControl.Resources>
+        <converters:NumbersToVersionAndPatchConverter x:Key="NumbersToVersionAndPatchConverter"/>
+    </UserControl.Resources>
+
+    <Grid Background="White" Margin="10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Resources>
+            <DataTemplate x:Key="SelectedReleases">
+                <StackPanel Orientation="Vertical" Margin="10, 0">
+                    <TextBlock FontSize="15" FontWeight="Bold" HorizontalAlignment="Center" >
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{} {0} {1}">
+                                <Binding Path="Version" Converter="{StaticResource NumbersToVersionAndPatchConverter}"/>
+                                <Binding Path="Patch" Converter="{StaticResource NumbersToVersionAndPatchConverter}"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock HorizontalAlignment="Center" Text="{Binding ReleaseDate}"/>
+                    <DataGrid ItemsSource="{Binding ToolList}" IsHitTestVisible="False" BorderThickness="0" MinColumnWidth="70">
+                        <DataGrid.Resources>
+                            <Style x:Key="HorizontalRight" TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Right"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Version" Binding="{Binding Version}"/>
+                            <DataGridTextColumn Header="Released in" Binding="{Binding Patch, Converter={StaticResource NumbersToVersionAndPatchConverter}}" ElementStyle="{StaticResource ResourceKey=HorizontalRight}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </DataTemplate>
+        </Grid.Resources>
+
+        <TextBlock Text="OMNIA release notes" HorizontalAlignment="Center" FontSize="25"/>
+
+        <ContentControl cal:View.Model="{Binding ReleasesSearchViewModel}" HorizontalAlignment="Left" Width="270"/>
+
+        <DataGrid ItemsSource="{Binding ReleaseList}" Grid.Row="1" AutoGenerateColumns="False" CanUserResizeColumns="False" CanUserReorderColumns="False" CanUserResizeRows="False" Margin="10" IsReadOnly="True" 
+                  HorizontalAlignment="Stretch" SelectionMode="Extended">
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Resources>
+                <Style x:Key="verticalCenter" TargetType="{x:Type TextBlock}">
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="25">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Path=IsSelectedForCompare, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Version" Binding="{Binding Version, Converter={StaticResource NumbersToVersionAndPatchConverter}}" ElementStyle="{StaticResource ResourceKey=verticalCenter}" Width="auto" MinWidth="75"/>
+                <DataGridTextColumn Header="Patch" Binding="{Binding Patch, Converter={StaticResource NumbersToVersionAndPatchConverter}}" ElementStyle="{StaticResource ResourceKey=verticalCenter}" Width="auto" MinWidth="75"/>
+                <DataGridTextColumn Header="Release date" Binding="{Binding ReleaseDate}" ElementStyle="{StaticResource ResourceKey=verticalCenter}" Width="auto" MinWidth="90"/>
+                <DataGridTemplateColumn Header="Components" Width="*" MinWidth="450">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding ToolList}" DisplayMemberPath="Name"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Component version" Width="*" MinWidth="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding ToolList}" DisplayMemberPath="Version"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Component file name" Width="*" MinWidth="170">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding ToolList}" DisplayMemberPath="FileName"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Component comment" Width="*" MinWidth="130">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding ToolList}" DisplayMemberPath="Comment"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Component restrictions" Width="*" MinWidth="130">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ItemsControl ItemsSource="{Binding ToolList}" DisplayMemberPath="Restriction"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Patch restrictions" Binding="{Binding RestrictionComment}" ElementStyle="{StaticResource ResourceKey=verticalCenter}" Width="*" MinWidth="150"/>
+                <DataGridTextColumn Header="Patch comments" Binding="{Binding Comment}" ElementStyle="{StaticResource ResourceKey=verticalCenter}" Width="*" MinWidth="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Button x:Name="CompareSelectedReleases" Grid.Row="2" Content="Compare" Width="auto" HorizontalAlignment="Left" Margin="10,0"/>
+        <Button x:Name="DeselectSelectedReleases" Grid.Row="2" Content="Deselect all" Width="auto" HorizontalAlignment="Left" Margin="80,0"/>
+
+        <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Hidden" Margin="10" Grid.ColumnSpan="2">
+            <Grid Width="{Binding ElementName=RootWindow, Path=ActualWidth}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <DataGrid ItemsSource="{Binding ExistingToolsList}" Margin="0,36,0,0" Background="White" IsHitTestVisible="False" BorderThickness="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Components" Binding="{Binding}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Hidden" Focusable="False" Margin="0,0,60,0">
+                    <ItemsControl ItemTemplate="{StaticResource SelectedReleases}" ItemsSource="{Binding UpdatedRelList}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
